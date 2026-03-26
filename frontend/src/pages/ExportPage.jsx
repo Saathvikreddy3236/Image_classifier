@@ -55,8 +55,9 @@ export default function ExportPage() {
           <table className="min-w-full text-left text-sm">
             <thead className="text-slate-500 dark:text-slate-400">
               <tr>
-                <th className="px-3 py-2">file_id</th>
-                <th className="px-3 py-2">class_id</th>
+                <th className="px-3 py-2">file_name</th>
+                <th className="px-3 py-2">object_count</th>
+                <th className="px-3 py-2">class_name</th>
                 <th className="px-3 py-2">x_min</th>
                 <th className="px-3 py-2">y_min</th>
                 <th className="px-3 py-2">width</th>
@@ -65,9 +66,10 @@ export default function ExportPage() {
             </thead>
             <tbody>
               {(data?.rows || []).map((row, index) => (
-                <tr key={`${row.file_id}-${row.class_id}-${index}`} className="border-t border-slate-200/60 dark:border-slate-800">
-                  <td className="px-3 py-3">{row.file_id}</td>
-                  <td className="px-3 py-3">{row.class_id}</td>
+                <tr key={`${row.file_name}-${row.class_name}-${index}`} className="border-t border-slate-200/60 dark:border-slate-800">
+                  <td className="px-3 py-3">{row.file_name}</td>
+                  <td className="px-3 py-3">{row.object_count}</td>
+                  <td className="px-3 py-3">{row.class_name}</td>
                   <td className="px-3 py-3">{row.x_min}</td>
                   <td className="px-3 py-3">{row.y_min}</td>
                   <td className="px-3 py-3">{row.width}</td>

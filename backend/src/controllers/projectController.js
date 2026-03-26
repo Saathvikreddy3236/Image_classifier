@@ -13,7 +13,12 @@ async function listProjects(req, res, next) {
 
 async function addProject(req, res, next) {
   try {
-    const project = await createProject(req.user.user_id);
+    const projectName = req.body.projectName?.trim();
+    if (!projectName) {
+      throw new AppError("Project name is required.");
+    }
+
+    const project = await createProject(req.user.user_id, projectName);
     res.status(201).json({ project });
   } catch (error) {
     next(error);

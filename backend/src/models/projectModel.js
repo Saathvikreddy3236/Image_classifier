@@ -1,9 +1,9 @@
 const db = require("../config/db");
 
-async function createProject(userId) {
+async function createProject(userId, projectName) {
   const result = await db.query(
-    "INSERT INTO project (user_id, folder_id) VALUES ($1, NULL) RETURNING *",
-    [userId]
+    "INSERT INTO project (user_id, project_name, folder_id) VALUES ($1, $2, NULL) RETURNING *",
+    [userId, projectName]
   );
   return result.rows[0];
 }

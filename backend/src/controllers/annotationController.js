@@ -53,8 +53,8 @@ async function exportCsv(req, res, next) {
     const csv = annotationsToCsv(rows);
     const summary = {
       annotationCount: rows.length,
-      fileCount: new Set(rows.map((row) => row.file_id)).size,
-      classCount: new Set(rows.map((row) => row.class_id)).size
+      fileCount: new Set(rows.map((row) => row.file_name)).size,
+      classCount: new Set(rows.map((row) => row.class_name)).size
     };
 
     if (req.query.download === "true") {

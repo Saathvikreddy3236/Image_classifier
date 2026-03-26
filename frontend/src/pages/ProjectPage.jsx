@@ -41,7 +41,9 @@ export default function ProjectPage() {
       <div className="flex flex-col justify-between gap-4 lg:flex-row lg:items-center">
         <div>
           <p className="text-sm uppercase tracking-[0.35em] text-sky-500">Project workspace</p>
-          <h1 className="mt-2 text-4xl font-semibold">Project #{projectId}</h1>
+          <h1 className="mt-2 text-4xl font-semibold">
+            {projectQuery.data?.project?.project_name || `Project #${projectId}`}
+          </h1>
         </div>
         <div className="flex flex-wrap gap-3">
           <input

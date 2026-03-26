@@ -9,6 +9,7 @@ export default function AuthPage() {
   const { token, login } = useAuth();
   const [mode, setMode] = useState("login");
   const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +22,7 @@ export default function AuthPage() {
     try {
       setLoading(true);
       setError("");
-      await login({ name }, mode);
+      await login({ name, password }, mode);
     } catch (err) {
       setError(err.response?.data?.message || "Authentication failed.");
     } finally {
@@ -61,12 +62,17 @@ export default function AuthPage() {
             <h2 className="mt-3 text-3xl font-semibold">
               {mode === "login" ? "Sign in to annotate" : "Register your account"}
             </h2>
-            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-              The exam schema only includes `user(user_id, name)`, so authentication is implemented as name-based JWT access.
-            </p>
+            <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">Use your username and password to access the annotation workspace.</p>
 
             <form onSubmit={handleSubmit} className="mt-8 space-y-4">
-              <FloatingInput label="Full name" value={name} onChange={(e) => setName(e.target.value)} required />
+              <FloatingInput label="Username" value={name} onChange={(e) => setName(e.target.value)} required />
+              <FloatingInput
+                label="Password"
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+              />
               {error ? <p className="text-sm text-rose-500">{error}</p> : null}
               <button disabled={loading} className="gradient-button w-full disabled:opacity-60">
                 {loading ? "Please wait..." : mode === "login" ? "Login" : "Register"}

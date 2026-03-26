@@ -13,9 +13,9 @@ export default function ProjectCard({ project }) {
           Project #{project.project_id}
         </span>
       </div>
-      <h3 className="mt-6 text-xl font-semibold">Folder {project.folder_id || "Pending"}</h3>
+      <h3 className="mt-6 text-xl font-semibold">{project.project_name}</h3>
       <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Linked to user {project.user_id}. Open the project to upload images, manage classes, and annotate.
+        Folder {project.folder_id || "Pending"}. Open the project to upload images, manage classes, and annotate.
       </p>
       <Link
         to={`/projects/${project.project_id}`}

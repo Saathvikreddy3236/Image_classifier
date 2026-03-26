@@ -1,6 +1,7 @@
 CREATE TABLE IF NOT EXISTS "user" (
   user_id SERIAL PRIMARY KEY,
-  name VARCHAR(150) UNIQUE NOT NULL
+  name VARCHAR(150) UNIQUE NOT NULL,
+  password_hash TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS folder (
@@ -12,6 +13,7 @@ CREATE TABLE IF NOT EXISTS folder (
 CREATE TABLE IF NOT EXISTS project (
   project_id SERIAL PRIMARY KEY,
   user_id INTEGER NOT NULL,
+  project_name VARCHAR(150) NOT NULL,
   folder_id INTEGER,
   CONSTRAINT fk_project_user FOREIGN KEY (user_id) REFERENCES "user"(user_id) ON DELETE CASCADE,
   CONSTRAINT fk_project_folder FOREIGN KEY (folder_id) REFERENCES folder(folder_id) ON DELETE SET NULL

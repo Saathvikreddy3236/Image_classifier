@@ -18,7 +18,12 @@ export default function AnnotationCanvas({
   annotations,
   selectedClass,
   setSelectedClass,
-  onSave,
+  pendingBox,
+  newClassName,
+  setNewClassName,
+  onCreateClass,
+  onDraftComplete,
+  onSavePending,
   onDelete
 }) {
   const containerRef = useRef(null);
@@ -65,10 +70,7 @@ export default function AnnotationCanvas({
     if (!draft) return;
     const normalized = normalizeBox(draft);
     if (normalized.width > 8 && normalized.height > 8) {
-      onSave({
-        class_id: Number(selectedClass),
-        coordinates: normalized
-      });
+      onDraftComplete(normalized);
     }
     setDraft(null);
   };
@@ -139,6 +141,17 @@ export default function AnnotationCanvas({
                 }}
               />
             ) : null}
+            {pendingBox ? (
+              <div
+                className="absolute border-2 border-emerald-400 bg-emerald-400/10"
+                style={{
+                  left: pendingBox.x,
+                  top: pendingBox.y,
+                  width: pendingBox.width,
+                  height: pendingBox.height
+                }}
+              />
+            ) : null}
           </div>
         </div>
       </div>
@@ -151,13 +164,46 @@ export default function AnnotationCanvas({
             onChange={(e) => setSelectedClass(e.target.value)}
             className="mt-4 w-full rounded-2xl border border-slate-200/70 bg-white/70 px-4 py-3 dark:border-slate-700 dark:bg-slate-950/60"
           >
-            <option value="">Select class</option>
+            <option value="" disabled hidden>
+              Select a class
+            </option>
             {classes.map((item) => (
               <option key={item.class_id} value={item.class_id}>
                 {item.classname || item.className}
               </option>
             ))}
           </select>
+          <div className="mt-3 flex gap-3">
+            <input
+              value={newClassName}
+              onChange={(event) => setNewClassName(event.target.value)}
+              placeholder="Create new class"
+              className="w-full rounded-2xl border border-slate-200/70 bg-white/70 px-4 py-3 text-sm dark:border-slate-700 dark:bg-slate-950/60"
+            />
+            <button
+              onClick={onCreateClass}
+              disabled={!newClassName.trim()}
+              className="rounded-2xl bg-slate-900 px-4 py-3 text-sm font-medium text-white disabled:cursor-not-allowed disabled:opacity-50 dark:bg-white dark:text-slate-950"
+            >
+              Save class
+            </button>
+          </div>
+          <button
+            onClick={onSavePending}
+            disabled={!pendingBox || !selectedClass}
+            className="gradient-button mt-3 w-full disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            Save annotation
+          </button>
+          {pendingBox ? (
+            <p className="mt-3 text-xs text-emerald-500">
+              Draft box ready. Choose an existing class, then save the annotation.
+            </p>
+          ) : (
+            <p className="mt-3 text-xs text-slate-500">
+              Draw a box on the image to prepare a new annotation.
+            </p>
+          )}
         </div>
 
         <div className="mt-8">
@@ -198,7 +244,11 @@ export default function AnnotationCanvas({
               >
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="font-medium">Class #{annotation.class_id}</p>
+                    <p className="font-medium">
+                      {classes.find((item) => item.class_id === annotation.class_id)?.classname ||
+                        classes.find((item) => item.class_id === annotation.class_id)?.className ||
+                        `Class #${annotation.class_id}`}
+                    </p>
                     <p className="text-xs text-slate-500">
                       x:{annotation.coordinates.x.toFixed(1)} y:{annotation.coordinates.y.toFixed(1)}
                     </p>

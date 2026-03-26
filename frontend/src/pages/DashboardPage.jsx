@@ -5,14 +5,18 @@ import StatCard from "../components/ui/StatCard";
 import ProjectCard from "../components/ProjectCard";
 import GlassCard from "../components/ui/GlassCard";
 import Modal from "../components/ui/Modal";
+import FloatingInput from "../components/ui/FloatingInput";
 
 export default function DashboardPage() {
   const { data, loading, error, setData } = useFetch("/projects", []);
   const [open, setOpen] = useState(false);
+  const [projectName, setProjectName] = useState("");
 
   const createProject = async () => {
-    const response = await api.post("/projects", {});
+    if (!projectName.trim()) return;
+    const response = await api.post("/projects", { projectName });
     setData((current) => ({ projects: [response.data.project, ...(current?.projects || [])] }));
+    setProjectName("");
     setOpen(false);
   };
 
@@ -57,8 +61,15 @@ export default function DashboardPage() {
 
       <Modal open={open} onClose={() => setOpen(false)} title="Create project">
         <p className="mb-5 text-sm text-slate-500 dark:text-slate-400">
-          A new project will be created for your account and can later be linked to an uploaded folder.
+          Choose a project name first, then create the workspace and link uploads later.
         </p>
+        <div className="mb-5">
+          <FloatingInput
+            label="Project name"
+            value={projectName}
+            onChange={(event) => setProjectName(event.target.value)}
+          />
+        </div>
         <button onClick={createProject} className="gradient-button w-full">
           Confirm
         </button>

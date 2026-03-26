@@ -5,8 +5,8 @@ import { useTheme } from "../../context/ThemeContext";
 
 const navItems = [
   { to: "/", label: "Projects", icon: FolderKanban },
-  { to: "/", label: "Uploads", icon: UploadCloud },
-  { to: "/", label: "Classes", icon: FolderOpen }
+  { to: "/uploads", label: "Uploads", icon: UploadCloud },
+  { to: "/classes", label: "Classes", icon: FolderOpen }
 ];
 
 export default function AppShell() {
@@ -29,7 +29,7 @@ export default function AppShell() {
               to={to}
               className={({ isActive }) =>
                 `flex items-center gap-3 rounded-2xl px-4 py-3 transition ${
-                  isActive && location.pathname === "/"
+                  isActive
                     ? "bg-sky-500 text-white shadow-lg shadow-sky-500/30"
                     : "hover:bg-white/50 dark:hover:bg-slate-900/40"
                 }`

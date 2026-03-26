@@ -37,17 +37,19 @@ async function deleteAnnotation(fileId, classId, index) {
 
 async function exportProjectAnnotations(projectId) {
   const result = await db.query(
-    `SELECT o.file_id,
-            o.class_id,
+    `SELECT f.file_name,
+            f.object_count,
+            c.classname AS class_name,
             (o.coordinates->>'x')::numeric AS x_min,
             (o.coordinates->>'y')::numeric AS y_min,
             (o.coordinates->>'width')::numeric AS width,
             (o.coordinates->>'height')::numeric AS height
      FROM objects o
      JOIN files f ON f.file_id = o.file_id
+     JOIN classes c ON c.class_id = o.class_id
      JOIN project p ON p.folder_id = f.folder_id
      WHERE p.project_id = $1
-     ORDER BY o.file_id ASC`,
+     ORDER BY f.file_name ASC`,
     [projectId]
   );
   return result.rows;

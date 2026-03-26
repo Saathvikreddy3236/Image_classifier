@@ -4,6 +4,8 @@ import DashboardPage from "./pages/DashboardPage";
 import ProjectPage from "./pages/ProjectPage";
 import AnnotationPage from "./pages/AnnotationPage";
 import ExportPage from "./pages/ExportPage";
+import UploadsPage from "./pages/UploadsPage";
+import ClassesPage from "./pages/ClassesPage";
 import AppShell from "./components/layout/AppShell";
 import { useAuth } from "./context/AuthContext";
 
@@ -25,6 +27,8 @@ export default function App() {
         }
       >
         <Route index element={<DashboardPage />} />
+        <Route path="uploads" element={<UploadsPage />} />
+        <Route path="classes" element={<ClassesPage />} />
         <Route path="projects/:projectId" element={<ProjectPage />} />
         <Route path="projects/:projectId/annotate/:fileId" element={<AnnotationPage />} />
         <Route path="projects/:projectId/export" element={<ExportPage />} />

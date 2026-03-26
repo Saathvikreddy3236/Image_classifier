@@ -1,0 +1,37 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  font-family: "Segoe UI", "Inter", sans-serif;
+}
+
+.dark {
+  color-scheme: dark;
+}
+
+body {
+  @apply min-h-screen bg-mesh-light text-slate-900 antialiased transition-colors duration-300 dark:bg-mesh-dark dark:text-slate-100;
+}
+
+#root {
+  @apply min-h-screen;
+}
+
+.glass-panel {
+  @apply border border-white/30 bg-white/55 backdrop-blur-xl dark:border-white/10 dark:bg-slate-900/55;
+}
+
+.gradient-button {
+  @apply rounded-2xl bg-gradient-to-r from-sky-500 via-blue-600 to-cyan-500 px-5 py-3 font-semibold text-white shadow-lg shadow-sky-500/25 transition hover:scale-[1.01] hover:shadow-xl hover:shadow-sky-500/30;
+}
+
+.soft-scrollbar::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.soft-scrollbar::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300/70 dark:bg-slate-700/80;
+}

@@ -6,6 +6,7 @@ import api from "../services/api";
 export default function ExportPage() {
   const { projectId } = useParams();
   const { data } = useFetch(`/annotations/export/${projectId}`, [projectId]);
+  const classesExport = useFetch(`/annotations/export/${projectId}/classes`, [projectId]);
 
   const downloadCsv = async () => {
     const response = await api.get(`/annotations/export/${projectId}?download=true`, {
@@ -15,6 +16,18 @@ export default function ExportPage() {
     const link = document.createElement("a");
     link.href = url;
     link.download = `project-${projectId}-annotations.csv`;
+    link.click();
+    window.URL.revokeObjectURL(url);
+  };
+
+  const downloadClassesTxt = async () => {
+    const response = await api.get(`/annotations/export/${projectId}/classes?download=true`, {
+      responseType: "blob"
+    });
+    const url = window.URL.createObjectURL(new Blob([response.data], { type: "text/plain" }));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = `project-${projectId}-classes.txt`;
     link.click();
     window.URL.revokeObjectURL(url);
   };
@@ -29,9 +42,17 @@ export default function ExportPage() {
             Export all bounding boxes as CSV with file, class, and geometry columns.
           </p>
         </div>
-        <button onClick={downloadCsv} className="gradient-button">
-          Download CSV
-        </button>
+        <div className="flex flex-wrap gap-3">
+          <button onClick={downloadCsv} className="gradient-button">
+            Download CSV
+          </button>
+          <button
+            onClick={downloadClassesTxt}
+            className="rounded-2xl border border-slate-200/70 px-5 py-3 font-semibold dark:border-slate-700"
+          >
+            Export Classes TXT
+          </button>
+        </div>
       </GlassCard>
 
       <div className="grid gap-5 md:grid-cols-3">
@@ -79,6 +100,13 @@ export default function ExportPage() {
             </tbody>
           </table>
         </div>
+      </GlassCard>
+
+      <GlassCard>
+        <h2 className="text-xl font-semibold">Class List TXT Preview</h2>
+        <pre className="mt-5 whitespace-pre-wrap rounded-2xl bg-slate-100/80 p-4 text-sm dark:bg-slate-950/60">
+          {classesExport.data?.preview || "No classes available for this project."}
+        </pre>
       </GlassCard>
     </div>
   );

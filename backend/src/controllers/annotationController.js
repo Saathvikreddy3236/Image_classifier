@@ -1,5 +1,6 @@
 const { annotationsToCsv } = require("../utils/csv");
 const { setObjectCount } = require("../models/fileModel");
+const { getClassesByProject } = require("../models/classModel");
 const {
   listAnnotationsByFile,
   createAnnotation,
@@ -69,4 +70,28 @@ async function exportCsv(req, res, next) {
   }
 }
 
-module.exports = { listByFile, addAnnotation, autosave, removeAnnotation, exportCsv };
+async function exportClassesTxt(req, res, next) {
+  try {
+    const classes = await getClassesByProject(req.params.projectId);
+    const lines = classes.map((item, index) => `${index + 1}. ${item.classname || item.className}`);
+    const content = lines.join("\n");
+
+    if (req.query.download === "true") {
+      res.setHeader("Content-Type", "text/plain; charset=utf-8");
+      res.setHeader(
+        "Content-Disposition",
+        `attachment; filename="project-${req.params.projectId}-classes.txt"`
+      );
+      return res.send(content);
+    }
+
+    res.json({
+      classes,
+      preview: content
+    });
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { listByFile, addAnnotation, autosave, removeAnnotation, exportCsv, exportClassesTxt };

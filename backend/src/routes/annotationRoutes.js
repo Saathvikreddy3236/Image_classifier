@@ -5,7 +5,8 @@ const {
   addAnnotation,
   autosave,
   removeAnnotation,
-  exportCsv
+  exportCsv,
+  exportClassesTxt
 } = require("../controllers/annotationController");
 
 const router = express.Router();
@@ -16,5 +17,6 @@ router.post("/", addAnnotation);
 router.put("/file/:fileId/autosave", autosave);
 router.delete("/file/:fileId/:classId/:index", removeAnnotation);
 router.get("/export/:projectId", exportCsv);
+router.get("/export/:projectId/classes", exportClassesTxt);
 
 module.exports = router;

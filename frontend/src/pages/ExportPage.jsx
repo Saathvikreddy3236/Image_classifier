@@ -44,7 +44,7 @@ export default function ExportPage() {
         </div>
         <div className="flex flex-wrap gap-3">
           <button onClick={downloadCsv} className="gradient-button">
-            Download CSV
+            Export CSV
           </button>
           <button
             onClick={downloadClassesTxt}

@@ -15,8 +15,8 @@ export default function AppShell() {
   const location = useLocation();
 
   return (
-    <div className="flex min-h-screen">
-      <aside className="glass-panel hidden w-72 flex-col border-r p-6 lg:flex">
+    <div className="min-h-screen lg:pl-72">
+      <aside className="glass-panel fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r p-6 lg:flex">
         <Link to="/" className="rounded-3xl bg-white/60 p-4 dark:bg-slate-900/50">
           <p className="text-xs uppercase tracking-[0.35em] text-sky-500">AI Vision Suite</p>
           <h1 className="mt-2 text-2xl font-semibold">Annotation System</h1>
@@ -62,7 +62,7 @@ export default function AppShell() {
         </div>
       </aside>
 
-      <main className="flex-1 p-4 md:p-8">
+      <main className="min-h-screen p-4 md:p-8">
         <Outlet />
       </main>
     </div>

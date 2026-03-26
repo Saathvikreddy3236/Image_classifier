@@ -60,7 +60,7 @@ export default function ProjectPage() {
             Upload folder
           </button>
           <Link to={`/projects/${projectId}/export`} className="rounded-2xl border border-slate-200/70 px-5 py-3 dark:border-slate-700">
-            Export CSV
+            Export 
           </Link>
         </div>
       </div>
